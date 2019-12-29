@@ -1,14 +1,39 @@
 import React, { Component } from 'react';
+// import { AsyncStorage } from 'react-native';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import Routes from './routes';
+import createNavigator from './routes';
 import NavigationService from './services/navigation';
 
-export default class App extends Component {
+class App extends Component {
+  static propTypes = {
+    auth: PropTypes.shape({
+      authChecked: PropTypes.bool,
+      signedIn: PropTypes.bool,
+    }).isRequired,
+  };
+  // async componentDidMount() {
+  //   await AsyncStorage.clear();
+  // }
+
   registerService = ref => {
     NavigationService.setTopLevelNavigator(ref);
   };
 
   render() {
+    const { auth } = this.props;
+
+    if (!auth.authChecked) return null;
+
+    const Routes = createNavigator(auth.signedIn);
+
     return <Routes ref={this.registerService} />;
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(App);
