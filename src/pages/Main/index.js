@@ -73,4 +73,4 @@ const mapStateToProps = state => ({
   activeTeam: state.teams.active,
 });
 
-export default connect()(Main);
+export default connect(mapStateToProps)(Main);
