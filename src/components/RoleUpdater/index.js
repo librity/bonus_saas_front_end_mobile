@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import MembersActions from '~/store/ducks/members';
 
 import styles from './styles';
+
 import Modal from '~/components/Modal';
+import Can from '~/components/Can';
 
 class RoleUpdater extends Component {
   state = {
@@ -42,6 +44,7 @@ class RoleUpdater extends Component {
           {roles.map(role => (
             <View key={role.id} style={styles.roleContainer}>
               <Text style={styles.roleText}>{role.name}</Text>
+
               <Switch
                 value={
                   !!editMember.roles.find(
