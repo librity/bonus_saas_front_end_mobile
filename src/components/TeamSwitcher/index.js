@@ -9,6 +9,8 @@ import TeamsActions from '~/store/ducks/teams';
 
 import styles from './styles';
 
+import NewTeam from '~/components/NewTeam';
+
 class TeamSwitcher extends Component {
   static propTypes = {
     getTeamsRequest: PropTypes.func.isRequired,
@@ -22,14 +24,27 @@ class TeamSwitcher extends Component {
     }).isRequired,
   };
 
+  state = {
+    isModalOpen: false,
+  };
+
   componentDidMount() {
     const { getTeamsRequest } = this.props;
 
     getTeamsRequest();
   }
 
+  toggleModalOpen = () => {
+    this.setState({ isModalOpen: true });
+  };
+
+  toggleModalClose = () => {
+    this.setState({ isModalOpen: false });
+  };
+
   render() {
     const { teams, selectTeam } = this.props;
+    const { isModalOpen } = this.state;
 
     return (
       <View style={styles.container}>
@@ -48,9 +63,11 @@ class TeamSwitcher extends Component {
           </TouchableOpacity>
         ))}
 
-        <TouchableOpacity style={styles.newTeam} onPress={() => {}}>
+        <TouchableOpacity style={styles.newTeam} onPress={this.toggleModalOpen}>
           <Icon name="add" size={24} color="#999" />
         </TouchableOpacity>
+
+        <NewTeam visible={isModalOpen} onRequestClose={this.toggleModalClose} />
       </View>
     );
   }
