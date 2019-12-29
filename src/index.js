@@ -3,12 +3,13 @@ import { Provider } from 'react-redux';
 
 import '~/config/StatusBarConfig';
 
-import Routes from './routes';
 import store from './store';
+
+import App from './App';
 
 const Root = () => (
   <Provider store={store}>
-    <Routes />
+    <App />
   </Provider>
 );
 
