@@ -9,9 +9,15 @@ import ProjectsActions from '~/store/ducks/projects';
 
 import styles from './styles';
 
+import NewProject from '~/components/NewProject'
+
 class Projects extends Component {
   static propTypes = {
     getProjectsRequest: PropTypes.func.isRequired,
+  };
+
+  state = {
+    isModalOpen: false,
   };
 
   componentDidMount() {
@@ -22,8 +28,17 @@ class Projects extends Component {
     }
   }
 
+  toggleModalOpen = () => {
+    this.setState({ isModalOpen: true });
+  };
+
+  toggleModalClose = () => {
+    this.setState({ isModalOpen: false });
+  };
+
   render() {
     const { projects, activeTeam } = this.props;
+    const { isModalOpen } = this.state;
 
     if (!activeTeam) return null;
 
@@ -40,9 +55,11 @@ class Projects extends Component {
           )}
         />
 
-        <TouchableOpacity style={styles.newProjectButton} onPress={() => {}}>
+        <TouchableOpacity style={styles.newProjectButton} onPress={this.toggleModalOpen}>
           <Icon name="add" size={28} color="#FFF" />
         </TouchableOpacity>
+
+        <NewProject visible={isModalOpen} onRequestClose={this.toggleModalClose} />
       </View>
     );
   }
