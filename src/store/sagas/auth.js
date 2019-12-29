@@ -1,5 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 import api from '~/services/api';
 import NavigationService from '~/services/navigation';
 
@@ -32,7 +33,9 @@ export function* signIn({ email, password }) {
 
     NavigationService.navigate('Main');
   } catch (err) {
-    console.log(err);
+    yield put(
+      ToastActionsCreators.displayError('Erro! Verifique seu e-mail/senha.')
+    );
   }
 }
 
@@ -44,16 +47,20 @@ export function* signUp({ name, email, password }) {
 
     yield put(AuthActions.signInSuccess(response.data.token));
 
-    // yield put(push('/'));
+    NavigationService.navigate('SignIn');
   } catch (err) {
-    console.log(err);
+    yield put(
+      ToastActionsCreators.displayError(
+        'Erro! Você foi convidado para algum time?'
+      )
+    );
   }
 }
 
 export function* signOut() {
   yield call([AsyncStorage, 'clear']);
 
-  // yield put(push('/signin'));
+  NavigationService.navigate('SignIn');
 }
 
 export function* getPermissions() {
