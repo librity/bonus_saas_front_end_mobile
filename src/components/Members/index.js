@@ -9,6 +9,7 @@ import MembersActions from '~/store/ducks/members';
 
 import styles from './styles';
 import InviteMember from '~/components/InviteMember';
+import RoleUpdater from '~/components/RoleUpdater';
 
 class Members extends Component {
   static propTypes = {
@@ -17,6 +18,8 @@ class Members extends Component {
 
   state = {
     isInviteModalOpen: false,
+    isRoleModalOpen: false,
+    editMember: null,
   };
 
   componentDidMount() {
@@ -33,9 +36,17 @@ class Members extends Component {
     this.setState({ isInviteModalOpen: false });
   };
 
+  toggleRoleModalOpen = editMember => {
+    this.setState({ isRoleModalOpen: true, editMember });
+  };
+
+  toggleRoleModalClose = () => {
+    this.setState({ isRoleModalOpen: false, editMember: null });
+  };
+
   render() {
     const { members } = this.props;
-    const { isInviteModalOpen } = this.state;
+    const { isInviteModalOpen, isRoleModalOpen, editMember } = this.state;
 
     return (
       <View style={styles.container}>
@@ -51,7 +62,7 @@ class Members extends Component {
 
               <TouchableOpacity
                 hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
-                onPress={() => {}}
+                onPress={() => this.toggleRoleModalOpen(item)}
               >
                 <Icon name="settings" size={20} color="#b0b0b0" />
               </TouchableOpacity>
@@ -71,6 +82,14 @@ class Members extends Component {
           visible={isInviteModalOpen}
           onRequestClose={this.toggleInviteModalClose}
         />
+
+        {editMember && (
+          <RoleUpdater
+            visible={isRoleModalOpen}
+            onRequestClose={this.toggleRoleModalClose}
+            editMember={editMember}
+          />
+        )}
       </View>
     );
   }
