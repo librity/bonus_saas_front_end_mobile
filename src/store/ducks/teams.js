@@ -21,7 +21,7 @@ export default Creators;
 export const INITIAL_STATE = Immutable({
   data: [],
   teamModalOpen: false,
-  active: JSON.parse(localStorage.getItem('@Omni:team')) || null,
+  active: null,
 });
 
 /* Reducers */
@@ -29,7 +29,7 @@ export const INITIAL_STATE = Immutable({
 export const getSuccess = (state, { data }) => state.merge({ data });
 
 export const selectTeam = (state, { team }) => {
-  localStorage.setItem('@Omni:team', JSON.stringify(team));
+  // localStorage.setItem('@Omni:team', JSON.stringify(team));
 
   return state.merge({ active: team });
 };
